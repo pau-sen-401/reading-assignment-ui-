@@ -55,6 +55,10 @@
     Please select at least one student.
   </p>
 
+  <p class="error" *ngIf="apiError()">
+    {{ apiError() }}
+  </p>
+
   <button type="submit" [disabled]="saving() || !isFormValid">
     {{ saving() ? 'Creating...' : 'Create Assignment' }}
   </button>

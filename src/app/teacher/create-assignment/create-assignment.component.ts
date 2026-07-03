@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ApiService } from '../../core/api.service';
 import { DemoAuthService } from '../../core/demo-auth.service';
 import { AppUser, Book } from '../../models';
@@ -19,6 +20,7 @@ export class CreateAssignmentComponent implements OnInit {
   readonly students = signal<AppUser[]>([]);
   readonly saving = signal(false);
   readonly submitted = signal(false);
+  readonly apiError = signal<string | null>(null);
 
   selectedBookId?: number;
   selectedStudentIds: string[] = [];
@@ -58,6 +60,7 @@ export class CreateAssignmentComponent implements OnInit {
 
   submit() {
     this.submitted.set(true);
+    this.apiError.set(null);
 
     if (!this.isFormValid) {
       return;
@@ -76,10 +79,18 @@ export class CreateAssignmentComponent implements OnInit {
         this.dueDate = '';
         this.submitted.set(false);
         this.saving.set(false);
+        this.apiError.set(null);
         this.assignmentCreated.emit();
       },
-      error: () => {
+      error: (error: HttpErrorResponse) => {
         this.saving.set(false);
+
+        if (error.status === 400 && typeof error.error?.message === 'string') {
+          this.apiError.set(error.error.message);
+          return;
+        }
+
+        this.apiError.set('Unable to create assignment. Please try again.');
       }
     });
   }

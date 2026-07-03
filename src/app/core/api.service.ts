@@ -12,7 +12,8 @@ import {
   providedIn: 'root'
 })
 export class ApiService {
-  private readonly apiUrl = 'http://localhost:8080/api';
+  // private readonly apiUrl = 'http://localhost:8080/api';
+  private readonly apiUrl = 'https://reading-assignment.onrender.com/api';
 
   constructor(private readonly http: HttpClient) {}
 

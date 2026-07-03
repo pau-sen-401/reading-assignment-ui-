@@ -3,6 +3,10 @@
 
   <p *ngIf="loading()">Loading assignments...</p>
 
+  <p class="error" *ngIf="progressError()">
+    {{ progressError() }}
+  </p>
+
   <div *ngIf="!loading() && assignments().length === 0" class="empty">
     You do not have any reading assignments yet.
   </div>

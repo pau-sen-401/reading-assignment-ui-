@@ -1,5 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { ApiService } from '../../core/api.service';
 import { DemoAuthService } from '../../core/demo-auth.service';
 import { AssignmentStatus, ReadingAssignment } from '../../models';
@@ -14,6 +15,7 @@ import { AssignmentStatus, ReadingAssignment } from '../../models';
 export class StudentDashboardComponent implements OnInit {
   readonly assignments = signal<ReadingAssignment[]>([]);
   readonly loading = signal(false);
+  readonly progressError = signal<string | null>(null);
 
   constructor(
     private readonly api: ApiService,
@@ -67,14 +69,26 @@ export class StudentDashboardComponent implements OnInit {
       return;
     }
 
+    this.progressError.set(null);
+
     this.api.updateProgress(this.auth.currentUser().userId, assignment.id, {
       status: nextStatus
-    }).subscribe(updated => {
-      this.assignments.update(assignments =>
-        assignments.map(candidate =>
-          candidate.id === updated.id ? updated : candidate
-        )
-      );
+    }).subscribe({
+      next: updated => {
+        this.assignments.update(assignments =>
+          assignments.map(candidate =>
+            candidate.id === updated.id ? updated : candidate
+          )
+        );
+      },
+      error: (error: HttpErrorResponse) => {
+        if (error.status === 400 && typeof error.error?.message === 'string') {
+          this.progressError.set(error.error.message);
+          return;
+        }
+
+        this.progressError.set('Unable to update assignment status. Please try again.');
+      }
     });
   }
 }
