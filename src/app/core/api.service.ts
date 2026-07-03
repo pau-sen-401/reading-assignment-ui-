@@ -28,25 +28,25 @@ export class ApiService {
     return this.http.get<AppUser[]>(`${this.apiUrl}/users/students`);
   }
 
-  getTeacherAssignments(userId: number) {
+  getTeacherAssignments(userId: string) {
     return this.http.get<ReadingAssignment[]>(`${this.apiUrl}/assignments`, {
       headers: this.userHeaders(userId)
     });
   }
 
-  createAssignments(userId: number, request: CreateAssignmentRequest) {
+  createAssignments(userId: string, request: CreateAssignmentRequest) {
     return this.http.post<ReadingAssignment[]>(`${this.apiUrl}/assignments`, request, {
       headers: this.userHeaders(userId)
     });
   }
 
-  getStudentAssignments(userId: number) {
+  getStudentAssignments(userId: string) {
     return this.http.get<ReadingAssignment[]>(`${this.apiUrl}/assignments/student`, {
       headers: this.userHeaders(userId)
     });
   }
 
-  updateProgress(userId: number, assignmentId: number, request: UpdateProgressRequest) {
+  updateProgress(userId: string, assignmentId: number, request: UpdateProgressRequest) {
     return this.http.patch<ReadingAssignment>(
       `${this.apiUrl}/assignments/${assignmentId}/progress`,
       request,
@@ -56,9 +56,9 @@ export class ApiService {
     );
   }
 
-  private userHeaders(userId: number) {
+  private userHeaders(userId: string) {
     return new HttpHeaders({
-      'X-User-Id': String(userId)
+      'X-User-Id': userId
     });
   }
 }

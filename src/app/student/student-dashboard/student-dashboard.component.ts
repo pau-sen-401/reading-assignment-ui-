@@ -34,7 +34,7 @@ export class StudentDashboardComponent implements OnInit {
   loadAssignments() {
     this.loading.set(true);
 
-    this.api.getStudentAssignments(2).subscribe({
+    this.api.getStudentAssignments(this.auth.currentUser().userId).subscribe({
       next: assignments => {
         this.assignments.set(assignments);
         this.loading.set(false);
@@ -46,7 +46,7 @@ export class StudentDashboardComponent implements OnInit {
   }
 
   updateAssignment(assignment: ReadingAssignment) {
-    this.api.updateProgress(this.auth.currentUser().id, assignment.id, {
+    this.api.updateProgress(this.auth.currentUser().userId, assignment.id, {
       status: assignment.status,
       minutesRead: assignment.minutesRead
     }).subscribe(updated => {

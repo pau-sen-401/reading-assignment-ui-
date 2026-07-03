@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '../core/api.service';
+import { DemoAuthService } from '../core/demo-auth.service';
 import { LoginRequest, UserRole } from '../models';
 
 @Component({
@@ -20,6 +21,7 @@ export class LoginComponent {
 
   constructor(
     private readonly apiService: ApiService,
+    private readonly auth: DemoAuthService,
     private readonly router: Router
   ) {}
 
@@ -40,6 +42,7 @@ export class LoginComponent {
 
     this.apiService.login(request).subscribe({
       next: user => {
+        this.auth.setCurrentUser(user);
         const targetRoute = user.role === 'STUDENT' ? '/student' : '/teacher';
         this.router.navigateByUrl(targetRoute);
       },

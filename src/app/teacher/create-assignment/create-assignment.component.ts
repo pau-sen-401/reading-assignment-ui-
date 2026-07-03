@@ -20,7 +20,7 @@ export class CreateAssignmentComponent implements OnInit {
   readonly saving = signal(false);
 
   selectedBookId?: number;
-  selectedStudentIds: number[] = [];
+  selectedStudentIds: string[] = [];
   dueDate = '';
 
   constructor(
@@ -33,7 +33,7 @@ export class CreateAssignmentComponent implements OnInit {
     this.api.getStudents().subscribe(students => this.students.set(students));
   }
 
-  toggleStudent(studentId: number, checked: boolean) {
+  toggleStudent(studentId: string, checked: boolean) {
     if (checked) {
       this.selectedStudentIds = [...this.selectedStudentIds, studentId];
     } else {
@@ -48,7 +48,7 @@ export class CreateAssignmentComponent implements OnInit {
 
     this.saving.set(true);
 
-    this.api.createAssignments(this.auth.currentUser().id, {
+    this.api.createAssignments(this.auth.currentUser().userId, {
       bookId: this.selectedBookId,
       studentIds: this.selectedStudentIds,
       dueDate: this.dueDate

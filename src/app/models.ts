@@ -20,6 +20,7 @@ export interface AppUser {
   id: number;
   name: string;
   email: string;
+  userId: string;
   role: UserRole;
 }
 
@@ -36,7 +37,7 @@ export interface ReadingAssignment {
 
 export interface CreateAssignmentRequest {
   bookId: number;
-  studentIds: number[];
+  studentIds: string[];
   dueDate: string;
 }
 

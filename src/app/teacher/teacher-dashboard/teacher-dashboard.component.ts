@@ -28,7 +28,7 @@ export class TeacherDashboardComponent implements OnInit {
   loadAssignments() {
     this.loading.set(true);
 
-    this.api.getTeacherAssignments(this.auth.currentUser().id).subscribe({
+    this.api.getTeacherAssignments(this.auth.currentUser().userId).subscribe({
       next: assignments => {
         this.assignments.set(assignments);
         this.loading.set(false);

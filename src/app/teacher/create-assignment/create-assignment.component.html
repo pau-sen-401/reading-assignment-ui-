@@ -20,8 +20,8 @@
     <label class="checkbox" *ngFor="let student of students()">
       <input
         type="checkbox"
-        [checked]="selectedStudentIds.includes(student.id)"
-        (change)="toggleStudent(student.id, $any($event.target).checked)"
+        [checked]="selectedStudentIds.includes(student.userId)"
+        (change)="toggleStudent(student.userId, $any($event.target).checked)"
       />
       {{ student.name }}
     </label>

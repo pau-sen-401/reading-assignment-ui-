@@ -1,9 +1,10 @@
 import { Injectable, signal } from '@angular/core';
-import { UserRole } from '../models';
+import { AppUser, UserRole } from '../models';
 
 export interface DemoUser {
   id: number;
   name: string;
+  userId: string;
   role: UserRole;
 }
 
@@ -11,26 +12,21 @@ export interface DemoUser {
   providedIn: 'root'
 })
 export class DemoAuthService {
-  readonly demoUsers: DemoUser[] = [
-    {
-      id: 1,
-      name: 'Demo Teacher',
-      role: 'TEACHER'
-    },
-    {
-      id: 2,
-      name: 'Demo Student',
-      role: 'STUDENT'
-    }
-  ];
 
-  readonly currentUser = signal<DemoUser>(this.demoUsers[0]);
+  currentUser = signal<DemoUser>({
+    id: 0,
+    name: '',
+    userId: '',
+    role: 'STUDENT'
+  });
 
-  selectUser(userId: number) {
-    const user = this.demoUsers.find(candidate => candidate.id === userId);
-
-    if (user) {
-      this.currentUser.set(user);
-    }
+  setCurrentUser(user: AppUser) {
+    this.currentUser.set({
+      id: user.id,
+      name: user.name,
+      userId: user.userId,
+      role: user.role
+    });
   }
+
 }
