@@ -1,0 +1,64 @@
+.student-dashboard {
+  display: grid;
+  gap: 1rem;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.empty,
+.assignment-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.assignment-card {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 2rem;
+}
+
+h3 {
+  margin: 0;
+}
+
+.author,
+.due-date {
+  color: #6b7280;
+}
+
+a {
+  color: #2563eb;
+  font-weight: 700;
+}
+
+.progress-controls {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+}
+
+label {
+  display: grid;
+  gap: 0.4rem;
+}
+
+select,
+input {
+  padding: 0.65rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+button {
+  padding: 0.75rem 1rem;
+  border: 0;
+  border-radius: 8px;
+  background: #16a34a;
+  color: #ffffff;
+  font-weight: 700;
+  cursor: pointer;
+}

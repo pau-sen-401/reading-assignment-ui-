@@ -1,0 +1,42 @@
+<section class="student-dashboard">
+  <h2>My Reading Assignments</h2>
+
+  <p *ngIf="loading()">Loading assignments...</p>
+
+  <div *ngIf="!loading() && assignments().length === 0" class="empty">
+    You do not have any reading assignments yet.
+  </div>
+
+  <article class="assignment-card" *ngFor="let assignment of assignments()">
+    <div>
+      <h3>{{ assignment.book.title }}</h3>
+      <p class="author">by {{ assignment.book.author }}</p>
+      <p>{{ assignment.book.description }}</p>
+      <p class="due-date">Due: {{ assignment.dueDate }}</p>
+
+      <a [href]="assignment.book.contentUrl" target="_blank" rel="noopener">
+        Open Book
+      </a>
+    </div>
+
+    <div class="progress-controls">
+      <label>
+        Status
+        <select [(ngModel)]="assignment.status">
+          <option *ngFor="let status of statuses" [ngValue]="status">
+            {{ status }}
+          </option>
+        </select>
+      </label>
+
+      <label>
+        Minutes Read
+        <input type="number" min="0" [(ngModel)]="assignment.minutesRead" />
+      </label>
+
+      <button type="button" (click)="updateAssignment(assignment)">
+        Save Progress
+      </button>
+    </div>
+  </article>
+</section>

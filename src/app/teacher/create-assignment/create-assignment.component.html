@@ -1,0 +1,33 @@
+<form class="assignment-form" (ngSubmit)="submit()">
+  <label>
+    Book
+    <select name="bookId" [(ngModel)]="selectedBookId" required>
+      <option [ngValue]="undefined">Select a book</option>
+      <option *ngFor="let book of books()" [ngValue]="book.id">
+        {{ book.title }} — {{ book.author }}
+      </option>
+    </select>
+  </label>
+
+  <label>
+    Due Date
+    <input type="date" name="dueDate" [(ngModel)]="dueDate" required />
+  </label>
+
+  <fieldset>
+    <legend>Students</legend>
+
+    <label class="checkbox" *ngFor="let student of students()">
+      <input
+        type="checkbox"
+        [checked]="selectedStudentIds.includes(student.id)"
+        (change)="toggleStudent(student.id, $any($event.target).checked)"
+      />
+      {{ student.name }}
+    </label>
+  </fieldset>
+
+  <button type="submit" [disabled]="saving()">
+    {{ saving() ? 'Creating...' : 'Create Assignment' }}
+  </button>
+</form>

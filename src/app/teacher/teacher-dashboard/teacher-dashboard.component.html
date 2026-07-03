@@ -1,0 +1,40 @@
+<section class="dashboard">
+  <div class="panel">
+    <h2>Create Assignment</h2>
+    <app-create-assignment (assignmentCreated)="loadAssignments()" />
+  </div>
+
+  <div class="panel">
+    <h2>Assignments</h2>
+
+    <p *ngIf="loading()">Loading assignments...</p>
+
+    <div *ngIf="!loading() && assignments().length === 0" class="empty">
+      No assignments have been created yet.
+    </div>
+
+    <table *ngIf="assignments().length > 0">
+      <thead>
+      <tr>
+        <th>Book</th>
+        <th>Student</th>
+        <th>Due Date</th>
+        <th>Status</th>
+        <th>Minutes Read</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr *ngFor="let assignment of assignments()">
+        <td>{{ assignment.book.title }}</td>
+        <td>{{ assignment.student.name }}</td>
+        <td>{{ assignment.dueDate }}</td>
+        <td>
+          <span class="status">{{ assignment.status }}</span>
+        </td>
+        <td>{{ assignment.minutesRead }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
