@@ -31,6 +31,10 @@ export class App {
       });
   }
 
+  fetchCurrentUser() {
+    return this.auth.currentUser();
+  }
+
   protected logout() {
     this.auth.clearCurrentUser();
     this.router.navigateByUrl('/');

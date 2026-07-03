@@ -7,7 +7,7 @@
 
     @if (showLogout()) {
       <button type="button" class="logout-link" (click)="logout()">
-        Log out
+        Log out [{{ fetchCurrentUser().name }}]
       </button>
     }
   </header>
