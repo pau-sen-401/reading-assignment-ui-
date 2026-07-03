@@ -1,0 +1,51 @@
+<section class="login-page">
+  <div class="login-card">
+    <div class="login-header">
+      <p class="eyebrow">Welcome back</p>
+      <h2>Log in to your assignment platform</h2>
+      <p>Use your student or teacher account to continue.</p>
+    </div>
+
+    <form (ngSubmit)="login()" #loginForm="ngForm">
+      <label>
+        Email
+        <input
+          type="email"
+          name="email"
+          [(ngModel)]="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          required
+        />
+      </label>
+
+      <label>
+        Password
+        <input
+          type="password"
+          name="password"
+          [(ngModel)]="password"
+          placeholder="Enter your password"
+          autocomplete="current-password"
+          required
+        />
+      </label>
+
+      <label>
+        Role
+        <select name="role" [(ngModel)]="role" required>
+          <option value="STUDENT">Student</option>
+          <option value="TEACHER">Teacher</option>
+        </select>
+      </label>
+
+      @if (errorMessage) {
+        <p class="error-message">{{ errorMessage }}</p>
+      }
+
+      <button type="submit" [disabled]="isSubmitting || loginForm.invalid">
+        {{ isSubmitting ? 'Logging in...' : 'Log in' }}
+      </button>
+    </form>
+  </div>
+</section>

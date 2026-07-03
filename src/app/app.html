@@ -5,10 +5,11 @@
       <p>Assign books, track progress, and keep students reading.</p>
     </div>
 
-    <nav>
-      <a routerLink="/teacher" routerLinkActive="active">Teacher</a>
-      <a routerLink="/student" routerLinkActive="active">Student</a>
-    </nav>
+    @if (showLogout()) {
+      <button type="button" class="logout-link" (click)="logout()">
+        Log out
+      </button>
+    }
   </header>
 
   <main>

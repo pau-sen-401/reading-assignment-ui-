@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import {
   AppUser,
   Book,
-  CreateAssignmentRequest,
+  CreateAssignmentRequest, LoginRequest,
   ReadingAssignment,
   UpdateProgressRequest
 } from '../models';
@@ -15,6 +15,10 @@ export class ApiService {
   private readonly apiUrl = 'http://localhost:8080/api';
 
   constructor(private readonly http: HttpClient) {}
+
+  login(request: LoginRequest) {
+    return this.http.post<AppUser>(`${this.apiUrl}/users/login`, request);
+  }
 
   getBooks() {
     return this.http.get<Book[]>(`${this.apiUrl}/books`);

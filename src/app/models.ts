@@ -10,6 +10,12 @@ export interface Book {
   contentUrl: string;
 }
 
+export interface LoginRequest {
+  email: string;
+  password: string;
+  role: UserRole;
+}
+
 export interface AppUser {
   id: number;
   name: string;
