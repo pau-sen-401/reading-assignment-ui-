@@ -1,6 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../core/api.service';
 import { DemoAuthService } from '../../core/demo-auth.service';
 import { AssignmentStatus, ReadingAssignment } from '../../models';
@@ -8,19 +7,13 @@ import { AssignmentStatus, ReadingAssignment } from '../../models';
 @Component({
   selector: 'app-student-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule],
   templateUrl: './student-dashboard.component.html',
   styleUrl: './student-dashboard.component.scss'
 })
 export class StudentDashboardComponent implements OnInit {
   readonly assignments = signal<ReadingAssignment[]>([]);
   readonly loading = signal(false);
-
-  readonly statuses: AssignmentStatus[] = [
-    'NOT_STARTED',
-    'IN_PROGRESS',
-    'COMPLETED'
-  ];
 
   constructor(
     private readonly api: ApiService,
@@ -45,10 +38,37 @@ export class StudentDashboardComponent implements OnInit {
     });
   }
 
-  updateAssignment(assignment: ReadingAssignment) {
+  getNextStatus(status: AssignmentStatus): AssignmentStatus {
+    switch (status) {
+      case 'NOT_STARTED':
+        return 'IN_PROGRESS';
+      case 'IN_PROGRESS':
+        return 'COMPLETED';
+      case 'COMPLETED':
+        return 'COMPLETED';
+    }
+  }
+
+  getProgressActionLabel(status: AssignmentStatus): string {
+    switch (status) {
+      case 'NOT_STARTED':
+        return 'Start Reading';
+      case 'IN_PROGRESS':
+        return 'Mark Completed';
+      case 'COMPLETED':
+        return 'Completed';
+    }
+  }
+
+  advanceAssignmentStatus(assignment: ReadingAssignment) {
+    const nextStatus = this.getNextStatus(assignment.status);
+
+    if (nextStatus === assignment.status) {
+      return;
+    }
+
     this.api.updateProgress(this.auth.currentUser().userId, assignment.id, {
-      status: assignment.status,
-      minutesRead: assignment.minutesRead
+      status: nextStatus
     }).subscribe(updated => {
       this.assignments.update(assignments =>
         assignments.map(candidate =>

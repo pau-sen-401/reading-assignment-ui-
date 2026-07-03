@@ -20,22 +20,17 @@
     </div>
 
     <div class="progress-controls">
-      <label>
-        Status
-        <select [(ngModel)]="assignment.status">
-          <option *ngFor="let status of statuses" [ngValue]="status">
-            {{ status }}
-          </option>
-        </select>
-      </label>
+      <div>
+        <span class="status-label">Status</span>
+        <span class="status">{{ assignment.status }}</span>
+      </div>
 
-      <label>
-        Minutes Read
-        <input type="number" min="0" [(ngModel)]="assignment.minutesRead" />
-      </label>
-
-      <button type="button" (click)="updateAssignment(assignment)">
-        Save Progress
+      <button
+        type="button"
+        [disabled]="assignment.status === 'COMPLETED'"
+        (click)="advanceAssignmentStatus(assignment)"
+      >
+        {{ getProgressActionLabel(assignment.status) }}
       </button>
     </div>
   </article>

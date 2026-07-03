@@ -32,7 +32,7 @@
         <td>
           <span class="status">{{ assignment.status }}</span>
         </td>
-        <td>{{ assignment.minutesRead }}</td>
+        <td>{{ fetchTimeDiffInMinutes(assignment) }}</td>
       </tr>
       </tbody>
     </table>

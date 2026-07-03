@@ -41,16 +41,19 @@ a {
   align-content: start;
 }
 
-label {
-  display: grid;
-  gap: 0.4rem;
+.status-label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 700;
 }
 
-select,
-input {
-  padding: 0.65rem;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
+.status {
+  display: inline-block;
+  padding: 0.45rem 0.65rem;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #3730a3;
+  font-weight: 700;
 }
 
 button {
@@ -61,4 +64,9 @@ button {
   color: #ffffff;
   font-weight: 700;
   cursor: pointer;
+}
+
+button:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
 }

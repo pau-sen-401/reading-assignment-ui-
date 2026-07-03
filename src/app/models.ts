@@ -31,8 +31,9 @@ export interface ReadingAssignment {
   teacher: AppUser;
   dueDate: string;
   status: AssignmentStatus;
-  minutesRead: number;
   createdAt: string;
+  startedReadingAt: string;
+  finishedReadingAt: string;
 }
 
 export interface CreateAssignmentRequest {
@@ -43,5 +44,4 @@ export interface CreateAssignmentRequest {
 
 export interface UpdateProgressRequest {
   status: AssignmentStatus;
-  minutesRead: number;
 }

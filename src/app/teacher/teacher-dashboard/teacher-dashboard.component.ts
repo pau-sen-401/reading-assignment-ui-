@@ -38,4 +38,19 @@ export class TeacherDashboardComponent implements OnInit {
       }
     });
   }
+
+  fetchTimeDiffInMinutes(assignment: ReadingAssignment) {
+    const startedReadingAt = new Date(assignment.startedReadingAt);
+    let diffInMs;
+
+    if (assignment.status === 'IN_PROGRESS') {
+      diffInMs = Math.abs(new Date().getTime() - startedReadingAt.getTime());
+    } else if (assignment.status === 'COMPLETED') {
+      diffInMs = Math.abs(new Date(assignment.finishedReadingAt).getTime() - startedReadingAt.getTime());
+    } else {
+      return '';
+    }
+
+    return Math.ceil(diffInMs / (1000 * 60));
+  }
 }
