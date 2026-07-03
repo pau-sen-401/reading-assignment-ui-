@@ -18,10 +18,13 @@ export class CreateAssignmentComponent implements OnInit {
   readonly books = signal<Book[]>([]);
   readonly students = signal<AppUser[]>([]);
   readonly saving = signal(false);
+  readonly submitted = signal(false);
 
   selectedBookId?: number;
   selectedStudentIds: string[] = [];
   dueDate = '';
+
+  readonly minDueDate = new Date().toISOString().split('T')[0];
 
   constructor(
     private readonly api: ApiService,
@@ -33,6 +36,18 @@ export class CreateAssignmentComponent implements OnInit {
     this.api.getStudents().subscribe(students => this.students.set(students));
   }
 
+  get hasSelectedStudents() {
+    return this.selectedStudentIds.length > 0;
+  }
+
+  get isDueDateInPast() {
+    return !!this.dueDate && this.dueDate < this.minDueDate;
+  }
+
+  get isFormValid() {
+    return !!this.selectedBookId && this.hasSelectedStudents && !!this.dueDate && !this.isDueDateInPast;
+  }
+
   toggleStudent(studentId: string, checked: boolean) {
     if (checked) {
       this.selectedStudentIds = [...this.selectedStudentIds, studentId];
@@ -42,14 +57,16 @@ export class CreateAssignmentComponent implements OnInit {
   }
 
   submit() {
-    if (!this.selectedBookId || this.selectedStudentIds.length === 0 || !this.dueDate) {
+    this.submitted.set(true);
+
+    if (!this.isFormValid) {
       return;
     }
 
     this.saving.set(true);
 
     this.api.createAssignments(this.auth.currentUser().userId, {
-      bookId: this.selectedBookId,
+      bookId: this.selectedBookId!,
       studentIds: this.selectedStudentIds,
       dueDate: this.dueDate
     }).subscribe({
@@ -57,6 +74,7 @@ export class CreateAssignmentComponent implements OnInit {
         this.selectedBookId = undefined;
         this.selectedStudentIds = [];
         this.dueDate = '';
+        this.submitted.set(false);
         this.saving.set(false);
         this.assignmentCreated.emit();
       },

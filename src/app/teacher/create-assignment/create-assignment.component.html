@@ -1,7 +1,12 @@
-<form class="assignment-form" (ngSubmit)="submit()">
+<form class="assignment-form" #assignmentForm="ngForm" (ngSubmit)="submit()" novalidate>
   <label>
     Book
-    <select name="bookId" [(ngModel)]="selectedBookId" required>
+    <select
+      name="bookId"
+      [(ngModel)]="selectedBookId"
+      #bookId="ngModel"
+      required
+    >
       <option [ngValue]="undefined">Select a book</option>
       <option *ngFor="let book of books()" [ngValue]="book.id">
         {{ book.title }} — {{ book.author }}
@@ -9,10 +14,29 @@
     </select>
   </label>
 
+  <p class="error" *ngIf="(bookId.invalid && bookId.touched) || (submitted() && !selectedBookId)">
+    Please select a book.
+  </p>
+
   <label>
     Due Date
-    <input type="date" name="dueDate" [(ngModel)]="dueDate" required />
+    <input
+      type="date"
+      name="dueDate"
+      [(ngModel)]="dueDate"
+      #dueDateInput="ngModel"
+      [min]="minDueDate"
+      required
+    />
   </label>
+
+  <p class="error" *ngIf="(dueDateInput.invalid && dueDateInput.touched) || (submitted() && !dueDate)">
+    Please choose a due date.
+  </p>
+
+  <p class="error" *ngIf="submitted() && isDueDateInPast">
+    Due date cannot be in the past.
+  </p>
 
   <fieldset>
     <legend>Students</legend>
@@ -27,7 +51,11 @@
     </label>
   </fieldset>
 
-  <button type="submit" [disabled]="saving()">
+  <p class="error" *ngIf="submitted() && !hasSelectedStudents">
+    Please select at least one student.
+  </p>
+
+  <button type="submit" [disabled]="saving() || !isFormValid">
     {{ saving() ? 'Creating...' : 'Create Assignment' }}
   </button>
 </form>
