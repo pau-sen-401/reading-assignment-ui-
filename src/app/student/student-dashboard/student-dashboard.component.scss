@@ -51,9 +51,22 @@ a {
   display: inline-block;
   padding: 0.45rem 0.65rem;
   border-radius: 999px;
-  background: #eef2ff;
-  color: #3730a3;
   font-weight: 700;
+}
+
+.status-not-started {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-in-progress {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-completed {
+  background: #dcfce7;
+  color: #166534;
 }
 
 button {

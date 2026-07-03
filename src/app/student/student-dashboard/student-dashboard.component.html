@@ -22,7 +22,9 @@
     <div class="progress-controls">
       <div>
         <span class="status-label">Status</span>
-        <span class="status">{{ assignment.status }}</span>
+        <span class="status" [ngClass]="'status-' + assignment.status.toLowerCase().replace('_', '-')">
+          {{ assignment.status }}
+        </span>
       </div>
 
       <button

@@ -43,8 +43,21 @@ th {
   display: inline-flex;
   padding: 0.25rem 0.5rem;
   border-radius: 999px;
-  background: #eff6ff;
-  color: #1d4ed8;
   font-size: 0.8rem;
   font-weight: 700;
+}
+
+.status-not-started {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.status-in-progress {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.status-completed {
+  background: #dcfce7;
+  color: #166534;
 }

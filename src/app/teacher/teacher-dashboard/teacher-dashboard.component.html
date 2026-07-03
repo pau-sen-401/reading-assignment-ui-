@@ -28,9 +28,11 @@
       <tr *ngFor="let assignment of assignments()">
         <td>{{ assignment.book.title }}</td>
         <td>{{ assignment.student.name }}</td>
-        <td>{{ assignment.dueDate }}</td>
+        <td>{{ assignment.dueDate | date:'MMM dd, yyyy' }}</td>
         <td>
-          <span class="status">{{ assignment.status }}</span>
+          <span class="status" [ngClass]="'status-' + assignment.status.toLowerCase().replace('_', '-')">
+            {{ assignment.status }}
+          </span>
         </td>
         <td>{{ fetchTimeDiffInMinutes(assignment) }}</td>
       </tr>
