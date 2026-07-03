@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CreateAssignmentComponent } from '../create-assignment/create-assignment.component';
 import { ApiService } from '../../core/api.service';
@@ -12,7 +12,9 @@ import { ReadingAssignment } from '../../models';
   templateUrl: './teacher-dashboard.component.html',
   styleUrl: './teacher-dashboard.component.scss'
 })
-export class TeacherDashboardComponent implements OnInit {
+export class TeacherDashboardComponent implements OnInit, OnDestroy {
+  private assignmentPollingIntervalId?: ReturnType<typeof setInterval>;
+
   readonly assignments = signal<ReadingAssignment[]>([]);
   readonly loading = signal(false);
 
@@ -23,6 +25,16 @@ export class TeacherDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.loadAssignments();
+
+    this.assignmentPollingIntervalId = setInterval(() => {
+      this.loadAssignments();
+    }, 60_000);
+  }
+
+  ngOnDestroy() {
+    if (this.assignmentPollingIntervalId) {
+      clearInterval(this.assignmentPollingIntervalId);
+    }
   }
 
   loadAssignments() {
