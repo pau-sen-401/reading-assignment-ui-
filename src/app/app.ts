@@ -1,6 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
+import { DemoAuthService } from './core/demo-auth.service';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,10 @@ export class App {
     return url.startsWith('/teacher') || url.startsWith('/student');
   });
 
-  constructor(private readonly router: Router) {
+  constructor(
+    private readonly router: Router,
+    private readonly auth: DemoAuthService
+  ) {
     this.currentUrl.set(this.router.url);
 
     this.router.events
@@ -28,6 +32,7 @@ export class App {
   }
 
   protected logout() {
+    this.auth.clearCurrentUser();
     this.router.navigateByUrl('/');
   }
 }
